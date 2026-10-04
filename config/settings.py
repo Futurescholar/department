@@ -20,17 +20,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 import os
-from dotenv import load_dotenv
+import dotenv
 
-load_dotenv()  # This loads variables from your .env file
+dotenv.load_dotenv() # This loads variables from your .env file
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
+
 # Apply these strict security settings ONLY when DEBUG is False (Production)
 
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = []
 
 
 # Application definition

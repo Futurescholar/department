@@ -37,7 +37,8 @@ from .services import (
 class PortalLoginView(LoginView):
     template_name = "portal/login.html"
     authentication_form = PortalLoginForm
-    redirect_authenticated_user = True
+    # No automatic redirect for people who are already logged in: the page tells them who they
+    # are logged in as and offers a Log out button, so testers can switch roles easily.
 
 
 class PasswordChange(PasswordChangeView):
@@ -275,3 +276,4 @@ def calendar_settings(request):
         messages.success(request, "Academic calendar saved.")
         return redirect("calendar_settings")
     return render(request, "portal/calendar.html", {"form": form})
+
