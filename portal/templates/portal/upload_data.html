@@ -1,0 +1,33 @@
+{% extends "portal/base.html" %}
+{% block title %}Upload data{% endblock %}
+{% block content %}
+<h1>Upload data</h1>
+<div class="card">
+  <p><strong>Upload in this order:</strong> Courses, Students, then Guardians and Files (and full-format Results if
+     you are loading old results). Guardians, files and results need the students and courses to exist first.</p>
+  <ul>
+    <li><strong>Courses:</strong> <code>code, title, credit_units, level, semester</code> and optionally
+        <code>prerequisites</code> (course codes separated by <code>;</code>). Level is 100 to 500; semester is
+        Harmattan or Rain. If you include the prerequisites column it replaces each listed course's prerequisites
+        (leave a cell blank for none).</li>
+    <li><strong>Students:</strong> <code>matric_number, name, surname, email, level</code>
+        (optional: <code>status</code> = Active or Terminated). Each new student gets a login: username =
+        matric number, first password = surname.</li>
+    <li><strong>Results, full format:</strong> <code>matric_number, course_code, score, session, semester</code>
+        (semester = Harmattan or Rain; session like 2024/2025)</li>
+    <li><strong>Guardians:</strong> <code>matric_number, guardian_email</code></li>
+    <li><strong>Files:</strong> <code>matric_number, file_type, cloud_url</code></li>
+  </ul>
+  <p>Uploading a row that already exists updates it instead of duplicating it.
+     Normal result uploads by lecturers are on the <a href="{% url 'upload_results' %}">Upload results</a> page.</p>
+</div>
+
+<div class="card">
+  {% include "portal/_errors.html" %}
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="primary" type="submit">Upload</button>
+  </form>
+</div>
+{% endblock %}

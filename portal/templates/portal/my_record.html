@@ -1,0 +1,8 @@
+{% extends "portal/base.html" %}
+{% block title %}My record{% endblock %}
+{% block content %}
+<h1>Welcome, {{ student.name }}</h1>
+{% include "portal/_student_card.html" %}
+<p><a href="{% url 'password_change' %}">Change my password</a></p>
+{% include "portal/_report.html" %}
+{% endblock %}

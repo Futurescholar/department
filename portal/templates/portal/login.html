@@ -1,0 +1,15 @@
+{% extends "portal/base.html" %}
+{% block title %}Log in{% endblock %}
+{% block content %}
+<div class="card" style="max-width:440px; margin:40px auto">
+  <h1>Log in</h1>
+  <p>Students: your username is your <strong>matric number</strong>. Your first password is your
+     <strong>surname</strong>; you will be asked to choose a new one straight away.</p>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="hidden" name="next" value="{{ next }}">
+    <button class="primary" type="submit">Log in</button>
+  </form>
+</div>
+{% endblock %}

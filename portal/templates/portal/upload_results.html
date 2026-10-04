@@ -1,0 +1,26 @@
+{% extends "portal/base.html" %}
+{% block title %}Upload results{% endblock %}
+{% block content %}
+<h1>Upload results</h1>
+<div class="card">
+  <p>Choose the <strong>session</strong>, <strong>semester</strong> and <strong>course</strong>, then upload a file
+     for that one course. Upload one file per course.</p>
+  <p>The file needs a <code>score</code> column and either a <code>matric_number</code> column, a
+     <code>name</code> column, or both:</p>
+  <ul>
+    <li><code>matric_number, score</code></li>
+    <li><code>name, score</code> &ndash; a name must match exactly one student, otherwise that row is rejected</li>
+    <li><code>matric_number, name, score</code> &ndash; the name is checked against the matric number</li>
+  </ul>
+  <p>Uploading a score that already exists for the same course and session replaces it.</p>
+</div>
+
+<div class="card">
+  {% include "portal/_errors.html" %}
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="primary" type="submit">Upload</button>
+  </form>
+</div>
+{% endblock %}

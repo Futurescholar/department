@@ -1,0 +1,19 @@
+<h2>Results</h2>
+{% if report.terms %}
+  <p>Cumulative GPA (CGPA): <strong>{{ report.cgpa }}</strong> &middot; Total units: {{ report.total_units }}</p>
+  {% for t in report.terms %}
+  <div class="card scroll">
+    <h3>{{ t.session }} &ndash; {{ t.semester }} semester</h3>
+    <table>
+      <tr><th>Course</th><th>Title</th><th>Units</th><th>Score</th><th>Grade point</th></tr>
+      {% for r in t.results %}
+      <tr><td>{{ r.course.code }}</td><td>{{ r.course.title }}</td><td>{{ r.course.credit_units }}</td>
+          <td>{{ r.score }}</td><td>{{ r.grade_point }}</td></tr>
+      {% endfor %}
+    </table>
+    <p>Semester GPA: <strong>{{ t.gpa }}</strong> ({{ t.units }} units)</p>
+  </div>
+  {% endfor %}
+{% else %}
+  <p>No results recorded yet.</p>
+{% endif %}

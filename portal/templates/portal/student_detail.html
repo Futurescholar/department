@@ -1,0 +1,24 @@
+{% extends "portal/base.html" %}
+{% block title %}{{ student.name }}{% endblock %}
+{% block content %}
+<p><a href="{% url 'students_list' %}">&laquo; All students</a></p>
+<h1>{{ student.name }}</h1>
+{% include "portal/_student_card.html" %}
+{% include "portal/_report.html" %}
+
+{% if is_hod %}
+<div class="card">
+  <h2>Guardians</h2>
+  {% if guardians %}<ul>{% for g in guardians %}<li>{{ g.email }}</li>{% endfor %}</ul>
+  {% else %}<p>No guardians on record.</p>{% endif %}
+  <h2>Files</h2>
+  {% if files %}<ul>{% for f in files %}<li>{{ f.file_type }}: <a href="{{ f.cloud_url }}">{{ f.cloud_url }}</a></li>{% endfor %}</ul>
+  {% else %}<p>No files on record.</p>{% endif %}
+  <h2>Login</h2>
+  <form method="post" action="{% url 'student_reset_password' student.pk %}">
+    {% csrf_token %}
+    <button class="primary" type="submit">Reset password to surname</button>
+  </form>
+</div>
+{% endif %}
+{% endblock %}

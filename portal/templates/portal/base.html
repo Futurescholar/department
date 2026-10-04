@@ -1,0 +1,64 @@
+{% load portal_tags %}<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Department Results Portal{% endblock %}</title>
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; margin: 0; background: #f4f6f8; color: #1f2933; }
+    .bar { background: #12355b; color: #fff; padding: 10px 20px; display: flex; flex-wrap: wrap;
+           align-items: center; gap: 18px; }
+    .bar a, .bar button { color: #fff; text-decoration: none; background: none; border: 0;
+                          font: inherit; cursor: pointer; }
+    .bar a:hover, .bar button:hover { text-decoration: underline; }
+    .brand { font-weight: 700; font-size: 1.1rem; margin-right: auto; }
+    nav { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+    form.inline { display: inline; margin: 0; }
+    main { max-width: 1000px; margin: 24px auto; padding: 0 16px; }
+    .card { background: #fff; border-radius: 8px; padding: 16px 20px; margin-bottom: 18px;
+            box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+    table { border-collapse: collapse; width: 100%; background: #fff; }
+    th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #e4e7eb; }
+    th { background: #eef2f6; }
+    .scroll { overflow-x: auto; }
+    .msg { padding: 10px 14px; border-radius: 6px; background: #e8f0fe; }
+    .msg.success { background: #e3f6e8; color: #14532d; }
+    .msg.error { background: #fde8e8; color: #7f1d1d; }
+    .errors { background: #fde8e8; color: #7f1d1d; border-radius: 6px; padding: 10px 14px 10px 30px; }
+    label { display: block; margin-top: 10px; font-weight: 600; }
+    input[type=text], input[type=password], select { padding: 7px; min-width: 260px; max-width: 100%; }
+    button.primary, .btn { background: #12355b; color: #fff; border: 0; border-radius: 6px;
+                           padding: 8px 16px; cursor: pointer; text-decoration: none; display: inline-block; }
+    .pager a { margin: 0 8px; }
+    dl { display: grid; grid-template-columns: 170px 1fr; gap: 6px 12px; margin: 0; }
+    dt { font-weight: 600; }
+    dd { margin: 0; }
+    code { background: #eef2f6; padding: 1px 5px; border-radius: 4px; }
+    .helptext, .errorlist { font-size: .9rem; color: #52606d; }
+  </style>
+</head>
+<body>
+<header class="bar">
+  <a class="brand" href="{% url 'home' %}">Department Results Portal</a>
+  {% if user.is_authenticated %}
+  <nav>
+    {% if user|is_lecturer %}
+      <a href="{% url 'results_search' %}">Results</a>
+      <a href="{% url 'students_list' %}">Students</a>
+      <a href="{% url 'upload_results' %}">Upload results</a>
+    {% endif %}
+    {% if user|is_hod %}<a href="{% url 'upload_data' %}">Upload data</a>{% endif %}
+    {% if user|is_student %}<a href="{% url 'my_record' %}">My record</a>{% endif %}
+    <a href="{% url 'password_change' %}">Password</a>
+    <form method="post" action="{% url 'logout' %}" class="inline">{% csrf_token %}
+      <button type="submit">Log out ({{ user.username }})</button>
+    </form>
+  </nav>
+  {% endif %}
+</header>
+<main>
+  {% for m in messages %}<p class="msg {{ m.tags }}">{{ m }}</p>{% endfor %}
+  {% block content %}{% endblock %}
+</main>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{% extends "portal/base.html" %}
+{% block title %}Not allowed{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>You don't have access to this page</h1>
+  <p>Your account does not have the role needed here. <a href="{% url 'home' %}">Go back home</a>.</p>
+</div>
+{% endblock %}

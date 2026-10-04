@@ -1,0 +1,10 @@
+<div class="card">
+  <dl>
+    <dt>Matric number</dt><dd>{{ student.matric_number }}</dd>
+    <dt>Name</dt><dd>{{ student.name }}</dd>
+    <dt>Email</dt><dd>{{ student.email }}</dd>
+    <dt>Level</dt><dd>{{ student.level }}</dd>
+    <dt>Status</dt><dd>{{ student.get_status_display }}</dd>
+    <dt>CGPA</dt><dd><strong>{{ student.cgpa }}</strong></dd>
+  </dl>
+</div>

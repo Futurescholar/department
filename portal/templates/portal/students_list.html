@@ -1,0 +1,21 @@
+{% extends "portal/base.html" %}
+{% block title %}Students{% endblock %}
+{% block content %}
+<h1>Students</h1>
+<form method="get" class="card">
+  {{ form.as_p }}
+  <button class="primary" type="submit">Search</button>
+  <a href="{% url 'students_list' %}">Clear</a>
+</form>
+<p>{{ page.paginator.count }} student(s) found.</p>
+<div class="scroll">
+<table>
+  <tr><th>Matric number</th><th>Name</th><th>Level</th><th>Status</th><th>CGPA</th></tr>
+  {% for s in page %}
+  <tr><td><a href="{% url 'student_detail' s.pk %}">{{ s.matric_number }}</a></td><td>{{ s.name }}</td>
+      <td>{{ s.level }}</td><td>{{ s.get_status_display }}</td><td>{{ s.cgpa }}</td></tr>
+  {% endfor %}
+</table>
+</div>
+{% include "portal/_pager.html" %}
+{% endblock %}

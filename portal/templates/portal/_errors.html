@@ -1,0 +1,5 @@
+{% if errors %}
+  <p><strong>Nothing was saved.</strong> Fix these and upload again:</p>
+  <ul class="errors">{% for e in errors|slice:":50" %}<li>{{ e }}</li>{% endfor %}</ul>
+  {% if errors|length > 50 %}<p>Showing the first 50 of {{ errors|length }} problems.</p>{% endif %}
+{% endif %}

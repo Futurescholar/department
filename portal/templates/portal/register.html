@@ -1,0 +1,69 @@
+{% extends "portal/base.html" %}
+{% block title %}Register courses{% endblock %}
+{% block content %}
+<h1>Register courses</h1>
+
+<div class="card">
+  <p><strong>{{ calendar.current_session }} &ndash; {{ calendar.get_current_semester_display }} semester</strong>
+     &middot; Your level: {{ student.level }}</p>
+  <p>Registration is
+     {% if calendar.registration_open %}<strong style="color:#14532d">open</strong>{% else %}<strong style="color:#7f1d1d">closed</strong>{% endif %}.
+     {% if calendar.min_units %}Minimum {{ calendar.min_units }} units.{% endif %}
+     {% if calendar.max_units %}Maximum {{ calendar.max_units }} units.{% endif %}</p>
+  <p class="muted">You can register for courses offered this semester at or below your level whose prerequisites you
+     have passed. Courses you have already passed are not listed. Retakes are marked.</p>
+</div>
+
+{% if errors %}<ul class="errors">{% for e in errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+
+<form method="post" class="card scroll">
+  {% csrf_token %}
+  <h2 style="margin-top:0">Courses you can register</h2>
+  {% if options.eligible %}
+  <table>
+    <tr><th></th><th>Course</th><th>Title</th><th>Level</th><th>Units</th><th></th></tr>
+    {% for e in options.eligible %}
+    <tr>
+      <td><input type="checkbox" name="course" value="{{ e.course.pk }}" data-units="{{ e.course.credit_units }}"
+                 {% if e.registered %}checked{% endif %} {% if not calendar.registration_open %}disabled{% endif %}></td>
+      <td>{{ e.course.code }}</td><td>{{ e.course.title }}</td><td>{{ e.course.level }}</td>
+      <td>{{ e.course.credit_units }}</td>
+      <td>{% if e.retake %}<span class="pill">Retake</span>{% endif %}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  <p>Units selected: <strong id="units-total">0</strong></p>
+  {% if calendar.registration_open %}<button class="primary" type="submit">Save registration</button>{% endif %}
+  {% else %}
+  <p class="muted">There are no courses available to you this semester.</p>
+  {% endif %}
+</form>
+
+{% if options.locked %}
+<div class="card scroll">
+  <h2 style="margin-top:0">Not available yet (prerequisites not passed)</h2>
+  <table>
+    <tr><th>Course</th><th>Title</th><th>You must first pass</th></tr>
+    {% for l in options.locked %}
+    <tr><td>{{ l.course.code }}</td><td>{{ l.course.title }}</td><td>{{ l.missing|join:", " }}</td></tr>
+    {% endfor %}
+  </table>
+</div>
+{% endif %}
+
+{% include "portal/_overview.html" %}
+
+<script>
+  (function () {
+    var boxes = document.querySelectorAll('input[name="course"]');
+    var out = document.getElementById("units-total");
+    function update() {
+      var total = 0;
+      boxes.forEach(function (b) { if (b.checked) { total += parseInt(b.dataset.units, 10); } });
+      if (out) { out.textContent = total; }
+    }
+    boxes.forEach(function (b) { b.addEventListener("change", update); });
+    update();
+  })();
+</script>
+{% endblock %}

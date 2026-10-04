@@ -1,0 +1,20 @@
+{% extends "portal/base.html" %}
+{% block title %}Academic calendar{% endblock %}
+{% block content %}
+<h1>Academic calendar and rules</h1>
+<div class="card">
+  <p>These settings control the whole portal: which session and semester courses are registered for, whether
+     students can register right now, unit limits, and the GPA levels that trigger a warning on a student's page.</p>
+  <ul>
+    <li><strong>Warning level</strong>: a student whose semester GPA or CGPA is at or below this sees a red warning.</li>
+    <li><strong>Watch level</strong>: at or below this (but above the warning level) shows an amber notice.</li>
+  </ul>
+</div>
+<div class="card">
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="primary" type="submit">Save</button>
+  </form>
+</div>
+{% endblock %}

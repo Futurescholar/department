@@ -1,0 +1,38 @@
+{% if standing.level %}
+<div class="card standing {{ standing.level }}">
+  <h2 style="margin-top:0">{% if standing.level == "warning" %}Academic warning{% else %}Academic watch{% endif %}</h2>
+  <ul>{% for m in standing.messages %}<li>{{ m }}</li>{% endfor %}</ul>
+  <p>Please contact the department for academic advice.</p>
+</div>
+{% endif %}
+
+<div class="card">
+  <h2 style="margin-top:0">Registered courses: {{ calendar.current_session }} {{ calendar.get_current_semester_display }} semester</h2>
+  {% if registered %}
+    <table>
+      <tr><th>Course</th><th>Title</th><th>Level</th><th>Units</th></tr>
+      {% for r in registered %}
+      <tr><td>{{ r.course.code }}</td><td>{{ r.course.title }}</td><td>{{ r.course.level }}</td><td>{{ r.course.credit_units }}</td></tr>
+      {% endfor %}
+    </table>
+    <p>Total: <strong>{{ registered_units }}</strong> units</p>
+  {% else %}
+    <p class="muted">No courses registered for this semester yet.</p>
+  {% endif %}
+</div>
+
+<div class="card">
+  <h2 style="margin-top:0">Outstanding courses (failed, still to be passed)</h2>
+  {% if outstanding %}
+    <table>
+      <tr><th>Course</th><th>Title</th><th>Last attempt</th><th>Offered</th></tr>
+      {% for o in outstanding %}
+      <tr><td>{{ o.course.code }}</td><td>{{ o.course.title }}</td>
+          <td>{{ o.score }} ({{ o.session }})</td>
+          <td>{% if o.offered_now %}This semester{% else %}{{ o.course.get_semester_display }} semester{% endif %}</td></tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p class="muted">None.</p>
+  {% endif %}
+</div>
