@@ -2,14 +2,24 @@
 {% block title %}Log in{% endblock %}
 {% block content %}
 <div class="card" style="max-width:440px; margin:40px auto">
-  <h1>Log in</h1>
-  <p>Students: your username is your <strong>matric number</strong>. Your first password is your
-     <strong>surname</strong>; you will be asked to choose a new one straight away.</p>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="hidden" name="next" value="{{ next }}">
-    <button class="primary" type="submit">Log in</button>
-  </form>
+  {% if user.is_authenticated %}
+    <h1>You are already logged in</h1>
+    <p>You are logged in as <strong>{{ user.username }}</strong>. To log in as someone else, log out first.</p>
+    <form method="post" action="{% url 'logout' %}" class="inline">
+      {% csrf_token %}
+      <button class="primary" type="submit">Log out</button>
+    </form>
+    &nbsp; <a href="{% url 'home' %}">Continue to my pages</a>
+  {% else %}
+    <h1>Log in</h1>
+    <p>Students: your username is your <strong>matric number</strong>. Your first password is your
+       <strong>surname</strong>; you will be asked to choose a new one straight away.</p>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="hidden" name="next" value="{{ next }}">
+      <button class="primary" type="submit">Log in</button>
+    </form>
+  {% endif %}
 </div>
 {% endblock %}

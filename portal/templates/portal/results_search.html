@@ -9,9 +9,10 @@
   <a href="{% url 'results_search' %}">Clear</a>
 </form>
 <p>{{ page.paginator.count }} result(s) found.</p>
+<p class="muted">Grade point is for each single course. Click a matric number to see that student's semester GPA and CGPA.</p>
 <div class="scroll">
 <table>
-  <tr><th>Matric number</th><th>Name</th><th>Course</th><th>Session</th><th>Semester</th><th>Score</th><th>Grade point</th></tr>
+  <tr><th>Matric number</th><th>Name</th><th>Course</th><th>Session</th><th>Semester</th><th>Score</th><th>Grade point (this course)</th></tr>
   {% for r in page %}
   <tr><td><a href="{% url 'student_detail' r.student.pk %}">{{ r.student.matric_number }}</a></td>
       <td>{{ r.student.name }}</td><td>{{ r.course.code }}</td><td>{{ r.session }}</td>

@@ -24,6 +24,13 @@
     .msg { padding: 10px 14px; border-radius: 6px; background: #e8f0fe; }
     .msg.success { background: #e3f6e8; color: #14532d; }
     .msg.error { background: #fde8e8; color: #7f1d1d; }
+    .msg.warning { background: #fff4d6; color: #7a4b00; }
+    .standing { border-left: 5px solid #94a3b8; }
+    .standing.warning { background: #fde8e8; border-left-color: #b91c1c; }
+    .standing.watch { background: #fff4d6; border-left-color: #d97706; }
+    .pill { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: .8rem;
+            background: #fff4d6; color: #7a4b00; }
+    .muted { color: #52606d; }
     .errors { background: #fde8e8; color: #7f1d1d; border-radius: 6px; padding: 10px 14px 10px 30px; }
     label { display: block; margin-top: 10px; font-weight: 600; }
     input[type=text], input[type=password], select { padding: 7px; min-width: 260px; max-width: 100%; }
@@ -47,8 +54,8 @@
       <a href="{% url 'students_list' %}">Students</a>
       <a href="{% url 'upload_results' %}">Upload results</a>
     {% endif %}
-    {% if user|is_hod %}<a href="{% url 'upload_data' %}">Upload data</a>{% endif %}
-    {% if user|is_student %}<a href="{% url 'my_record' %}">My record</a>{% endif %}
+    {% if user|is_hod %}<a href="{% url 'upload_data' %}">Upload data</a><a href="{% url 'calendar_settings' %}">Calendar</a>{% endif %}
+    {% if user|is_student %}<a href="{% url 'my_record' %}">My record</a><a href="{% url 'register_courses' %}">Register courses</a>{% endif %}
     <a href="{% url 'password_change' %}">Password</a>
     <form method="post" action="{% url 'logout' %}" class="inline">{% csrf_token %}
       <button type="submit">Log out ({{ user.username }})</button>

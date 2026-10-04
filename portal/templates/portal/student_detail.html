@@ -4,6 +4,7 @@
 <p><a href="{% url 'students_list' %}">&laquo; All students</a></p>
 <h1>{{ student.name }}</h1>
 {% include "portal/_student_card.html" %}
+{% include "portal/_overview.html" %}
 {% include "portal/_report.html" %}
 
 {% if is_hod %}
